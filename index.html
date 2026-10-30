@@ -2,45 +2,49 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Una disculpa de corazón 🥺</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para ti... 🤍</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Audio de fondo -->
+    <audio id="background-music" loop>
+        <source src="cancion.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio.
+    </audio>
 
-    <!-- REPRODUCTOR DE MÚSICA (Audio de fondo) -->
-    <audio id="bg-music" src="cancion.mp3" loop></audio>
-    
-    <!-- Botón flotante para pausar/reproducir la música -->
-    <button id="music-btn" class="music-btn hidden">🎵</button>
-
-    <!-- PANTALLA DEL SOBRE (Aparece al principio) -->
-    <div id="envelope-container" class="envelope-container">
-        <div class="envelope" id="envelope">
-            <div class="flap"></div>
-            <div class="body"></div>
-            <div class="letter-preview">💌</div>
+    <!-- 1. PANTALLA DEL SOBRE (INICIAL) -->
+    <div id="envelope-container" class="envelope-screen">
+        <div class="envelope" id="open-envelope-btn">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="heart-seal">❤️</div>
         </div>
-        <p class="envelope-text">Tienes un mensaje... Toca para abrir 🔓</p>
+        <p class="envelope-text">Toca el sobre para abrirlo 💌</p>
     </div>
 
-    <!-- CONTENIDO DE LA DISCULPA -->
-    <div class="container hidden" id="main-content">
-        <!-- Imagen chiquita arriba del texto -->
+    <!-- 2. TARJETA PRINCIPAL (OCULTA HASTA ABRIR EL SOBRE) -->
+    <div class="card hidden" id="main-card">
+        <!-- Contenedor de Imagen o Video -->
         <div class="img-wrapper">
             <img id="imagen-cambio" src="img/triste.png" alt="Imagen disculpa">
         </div>
 
-        <h1 id="main-text">Perdón... sé que la regué y de verdad lo siento 💔</h1>
-        
-        <div class="btn-group" id="btn-group">
-            <button id="yes-btn">Te perdono ❤️</button>
-            <button id="no-btn">No 😔</button>
+        <!-- Texto principal -->
+        <h1 id="main-text">Hola... Sé que he estado fallando y quería pedirte una disculpa de corazón. 🥺</h1>
+
+        <!-- Grupo de botones -->
+        <div class="btn-group">
+            <button id="yes-btn">Sí, te perdonaré</button>
+            <button id="no-btn">No</button>
         </div>
 
-        <!-- Botón de Postdata -->
-        <button id="pd-btn" class="hidden">P.D. 💌</button>
+        <!-- Botón de Postdata (oculto al inicio) -->
+        <button id="pd-btn" class="hidden">Ver P.D. 💌</button>
     </div>
+
+    <!-- Botón flotante para la música por si acaso -->
+    <button id="music-toggle" class="music-btn hidden">🎵 Música</button>
 
     <script src="script.js"></script>
 </body>

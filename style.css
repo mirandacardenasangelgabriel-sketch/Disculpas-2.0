@@ -3,218 +3,176 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    -webkit-tap-highlight-color: transparent;
 }
 
 body {
-    background-color: #ffe6e6;
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+    background: linear-gradient(135deg, #ffd1dc 0%, #ff9a9e 100%); /* Fondo rosa romántico */
+    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    overflow: hidden;
+    align-items: center;
+    padding: 20px;
+    overflow-x: hidden;
 }
 
-/* BOTÓN DE MÚSICA FLOTANTE */
-.music-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: white;
-    border: none;
-    font-size: 1.2rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    cursor: pointer;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-}
-
-/* ESTILOS DEL SOBRE */
-.envelope-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+/* --- ESTILOS DEL SOBRE --- */
+.envelope-screen {
+    text-align: center;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
-.envelope-container:hover {
+.envelope-screen:hover {
     transform: scale(1.05);
 }
 
 .envelope {
+    width: 260px;
+    height: 180px;
+    background: #ff6b81;
     position: relative;
-    width: 220px;
-    height: 150px;
-    background-color: #ff8080;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 15px 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    margin: 0 auto 20px auto;
 }
 
-.envelope .flap {
+.envelope-flap {
     position: absolute;
     top: 0;
     left: 0;
     width: 0;
     height: 0;
-    border-left: 110px solid transparent;
-    border-right: 110px solid transparent;
-    border-top: 85px solid #ff6b6b;
+    border-left: 130px solid transparent;
+    border-right: 130px solid transparent;
+    border-top: 100px solid #ff4757; /* Tapa del sobre */
     transform-origin: top;
-    transition: transform 0.4s ease;
+    transition: transform 0.6s ease;
 }
 
-.envelope .body {
+.heart-seal {
     position: absolute;
-    bottom: 0;
-    width: 0;
-    height: 0;
-    border-left: 110px solid #ff4d4d;
-    border-right: 110px solid #ff4d4d;
-    border-bottom: 75px solid #ff6b6b;
-    border-radius: 0 0 10px 10px;
-}
-
-.letter-preview {
-    position: absolute;
-    bottom: 40px;
+    top: 75px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
+    z-index: 5;
+    animation: latido 1.2s infinite;
+}
+
+@keyframes latido {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.15); }
 }
 
 .envelope-text {
-    color: #555;
+    color: #fff;
     font-size: 1.1rem;
-    font-weight: bold;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* --- TARJETA PRINCIPAL (ROSA Y BLANCA) --- */
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(255, 107, 129, 0.3);
     text-align: center;
-    animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-}
-
-.envelope.open .flap {
-    transform: rotateX(180deg);
-    z-index: 10;
-}
-
-/* CONTENEDOR PRINCIPAL */
-.container {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-    width: 90%;
-    max-width: 420px;
-    z-index: 10;
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+    border: 2px solid #ffccd5;
 }
 
 .img-wrapper {
-    width: 120px;
-    height: 120px;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 20px auto;
+    border-radius: 15px;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 5px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    background: #fff0f3;
 }
 
-.img-wrapper img {
+.img-wrapper img,
+.img-wrapper video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    border-radius: 15px;
+    object-fit: cover;
 }
 
 h1 {
-    color: #333;
-    font-size: 1.4rem;
-    line-height: 1.3;
+    font-size: 1.3rem;
+    color: #4a4a4a;
+    margin-bottom: 25px;
+    line-height: 1.4;
 }
 
 .btn-group {
     display: flex;
-    gap: 20px;
-    margin-top: 10px;
     justify-content: center;
-    width: 100%;
+    gap: 15px;
+    position: relative;
+    min-height: 50px;
 }
 
 button {
-    cursor: pointer;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
     border: none;
-    outline: none;
-    font-size: 1.1rem;
-    font-weight: bold;
-    padding: 12px 28px;
-    border-radius: 25px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s, background-color 0.2s;
-    user-select: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 #yes-btn {
-    background-color: #ff4d4d;
+    background-color: #ff6b81;
     color: white;
+    box-shadow: 0 4px 10px rgba(255, 107, 129, 0.3);
 }
 
-#yes-btn:active {
-    transform: scale(0.95);
+#yes-btn:hover {
+    background-color: #ff4757;
+    transform: scale(1.05);
 }
 
 #no-btn {
-    background-color: white;
-    color: #555;
-    z-index: 999;
+    background-color: #ffe0e6;
+    color: #d63031;
+    position: relative;
+}
+
+#pd-btn {
+    background-color: #ff758c;
+    color: white;
+    margin-top: 15px;
+    width: 100%;
+    box-shadow: 0 4px 10px rgba(255, 117, 140, 0.3);
+}
+
+#pd-btn:hover {
+    background-color: #ff5270;
 }
 
 .hidden {
     display: none !important;
 }
 
-#pd-btn {
-    background-color: #ff8080;
-    color: white;
-    margin-top: 10px;
-    animation: bounce 1.5s infinite;
-}
-
-#pd-btn:hover {
-    background-color: #ff6b6b;
-    transform: scale(1.05);
-}
-
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.2rem;
-    }
-
-    .img-wrapper {
-        width: 100px;
-        height: 100px;
-    }
-
-    button {
-        padding: 10px 22px;
-        font-size: 1rem;
-    }
+.music-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ffffff;
+    border: 1px solid #ffccd5;
+    color: #ff6b81;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    z-index: 10;
 }

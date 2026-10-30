@@ -1,99 +1,74 @@
-const envelopeContainer = document.querySelector('#envelope-container');
-const envelope = document.querySelector('#envelope');
-const mainContent = document.querySelector('#main-content');
+const envelopeContainer = document.getElementById('envelope-container');
+const openEnvelopeBtn = document.getElementById('open-envelope-btn');
+const mainCard = document.getElementById('main-card');
+const musicToggle = document.getElementById('music-toggle');
+const backgroundMusic = document.getElementById('background-music');
 
-const bgMusic = document.querySelector('#bg-music');
-const musicBtn = document.querySelector('#music-btn');
+const yesBtn = document.getElementById('yes-btn');
+const noBtn = document.getElementById('no-btn');
+const pdBtn = document.getElementById('pd-btn');
+const mainText = document.getElementById('main-text');
+const imagenCambio = document.getElementById('imagen-cambio');
+const imgWrapper = document.querySelector('.img-wrapper');
 
-const yesBtn = document.querySelector('#yes-btn');
-const noBtn = document.querySelector('#no-btn');
-const mainText = document.querySelector('#main-text');
-const imagenCambio = document.querySelector('#imagen-cambio');
-const pdBtn = document.querySelector('#pd-btn');
+// ACCIÓN DE ABRIR EL SOBRE (Inicia la música automáticamente y muestra la carta)
+openEnvelopeBtn.addEventListener('click', () => {
+    // Reproducir música al abrir el sobre
+    backgroundMusic.play().catch(() => {});
+    
+    // Ocultar sobre y mostrar tarjeta y botón de música
+    envelopeContainer.style.display = 'none';
+    mainCard.classList.remove('hidden');
+    musicToggle.classList.remove('hidden');
+});
 
-let pasoActual = 0;
-let esEcurridizo = false;
-let isPlaying = false;
+// Botón de activar/desactivar música manualmente
+musicToggle.addEventListener('click', () => {
+    if (backgroundMusic.paused) {
+        backgroundMusic.play();
+        musicToggle.textContent = "🔊 Música";
+    } else {
+        backgroundMusic.pause();
+        musicToggle.textContent = "🔇 Silencio";
+    }
+});
 
-// Secuencias con frases sinceras y tus imágenes locales
+// Secuencia de mensajes y fotos al presionar "No"
 const secuenciasNo = [
     {
         texto: "Sé que cometí un error y me equivoqué contigo, de verdad lo siento 🥺",
-        imagen: "img/rogando.png" 
+        imagen: "img/rogando.png"
     },
     {
         texto: "Me importas muchísimo y odio estar así contigo... ¿me das otra oportunidad? 💔",
-        imagen: "img/perdon.png" 
+        imagen: "img/perdon.png"
+    },
+    {
+        texto: "Ándale, por favor... prometo portarme bien y mejorar cada día 😭",
+        imagen: "img/triste.png"
     }
 ];
 
-// Abrir el sobre al tocarlo y reproducir música
-envelopeContainer.addEventListener('click', () => {
-    envelope.classList.add('open');
-    
-    // Iniciar la música (los navegadores permiten audio tras el toque de la usuaria)
-    bgMusic.play().then(() => {
-        isPlaying = true;
-        musicBtn.textContent = '🎵';
-    }).catch(err => console.log("Audio autostart prevented:", err));
+let contadorNo = 0;
 
-    setTimeout(() => {
-        envelopeContainer.style.display = 'none';
-        mainContent.classList.remove('hidden');
-        musicBtn.classList.remove('hidden'); // Mostrar botón flotante de música
-    }, 500);
-});
-
-// Control manual de la música (Pausa / Play)
-musicBtn.addEventListener('click', () => {
-    if (isPlaying) {
-        bgMusic.pause();
-        musicBtn.textContent = '🔇';
-        isPlaying = false;
+// Lógica del botón "No"
+noBtn.addEventListener('click', () => {
+    if (contadorNo < secuenciasNo.length) {
+        mainText.textContent = secuenciasNo[contadorNo].texto;
+        imagenCambio.src = secuenciasNo[contadorNo].imagen;
+        contadorNo++;
     } else {
-        bgMusic.play();
-        musicBtn.textContent = '🎵';
-        isPlaying = true;
+        // Efecto esquivo cuando se acaban las frases
+        const maxX = window.innerWidth - noBtn.offsetWidth - 50;
+        const maxY = window.innerHeight - noBtn.offsetHeight - 50;
+        const randomX = Math.random() * maxX;
+        const randomY = Math.random() * maxY;
+
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = `${randomX}px`;
+        noBtn.style.top = `${randomY}px`;
     }
 });
-
-function moverBoton() {
-    noBtn.style.position = 'fixed';
-    
-    const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-    const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-
-    const randomX = Math.floor(Math.random() * (maxX - 20)) + 20;
-    const randomY = Math.floor(Math.random() * (maxY - 20)) + 20;
-
-    noBtn.style.left = `${randomX}px`;
-    noBtn.style.top = `${randomY}px`;
-}
-
-function handleNoAction(e) {
-    if (esEcurridizo) {
-        e.preventDefault();
-        moverBoton();
-        return;
-    }
-
-    if (pasoActual < secuenciasNo.length) {
-        mainText.textContent = secuenciasNo[pasoActual].texto;
-        imagenCambio.src = secuenciasNo[pasoActual].imagen; 
-        pasoActual++;
-
-        if (pasoActual === secuenciasNo.length) {
-            esEcurridizo = true;
-            noBtn.addEventListener('mouseenter', moverBoton);
-            noBtn.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-                moverBoton();
-            });
-        }
-    }
-}
-
-noBtn.addEventListener('click', handleNoAction);
 
 // Cuando acepta las disculpas
 yesBtn.addEventListener('click', () => {
@@ -103,12 +78,19 @@ yesBtn.addEventListener('click', () => {
     
     // Mostramos el botón de Postdata
     pdBtn.classList.remove('hidden');
-    
-    imagenCambio.src = "img/pd.png"; 
+    imagenCambio.src = "img/perdon.png"; 
 });
 
-// Cuando hace clic en el botón de Postdata
+// Cuando hace clic en el botón de Postdata (cambia automáticamente al MP4)
 pdBtn.addEventListener('click', () => {
     mainText.textContent = "P.D. De verdad quiero hacer las cosas bien contigo, cuidarte y demostrarte que se puede confiar en mí. 🌟";
     pdBtn.style.display = 'none'; 
+    
+    // Reemplaza la imagen por tu archivo pd-animacion.mp4
+    imgWrapper.innerHTML = `
+        <video autoplay loop muted playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+            <source src="img/pd-animacion.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+        </video>
+    `;
 });
